@@ -1,0 +1,16 @@
+  serial_num            season         num            basin       sub.basin             name          
+ Length:19995       Min.   :2010   Length:19995        EP:3493   Length:19995       Length:19995      
+ Class :character   1st Qu.:2011   Class :character    NA:2858   Class :character   Class :character  
+ Mode  :character   Median :2013   Mode  :character    NI:1465   Mode  :character   Mode  :character  
+                    Mean   :2013                       SA:  49                                        
+                    3rd Qu.:2014                       SI:4132                                        
+                    Max.   :2015                       SP:2040                                        
+                                                       WP:5958                                        
+   iso_time            nature             latitude         longitude            wind            press       
+ Length:19995       Length:19995       Min.   :-61.300   Min.   :-179.90   Min.   :  3.00   Min.   : 872.0  
+ Class :character   Class :character   1st Qu.:-12.500   1st Qu.: -77.50   1st Qu.: 30.00   1st Qu.: 983.0  
+ Mode  :character   Mode  :character   Median : 15.100   Median :  80.10   Median : 40.00   Median : 996.0  
+                                       Mean   :  9.255   Mean   :  35.42   Mean   : 47.08   Mean   : 989.6  
+                                       3rd Qu.: 22.700   3rd Qu.: 129.70   3rd Qu.: 60.00   3rd Qu.:1004.0  
+                                       Max.   : 69.000   Max.   : 180.00   Max.   :185.00   Max.   :1017.0  
+                                       NA's   :1720      NA's   :1720      NA's   :4215     NA's   :2342    

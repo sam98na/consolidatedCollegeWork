@@ -1,0 +1,88 @@
+---
+title: "workout2-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#' @title Annual Rate of Return Function
+#' @description Calculates a randomized annual rate of return
+#' @param ref Reference Annual Rate
+#' @param vol Volatility of given Annual Rate
+#' @param seed Seed for random number generation
+#' @return an annual rate of return
+randannual <- function(ref, vol, seed){
+  return(rnorm(1, mean = ref, sd = vol))
+}
+
+#' @title Single Investment Calculator Function
+#' @description Calculates the total value of a single type of investment given parameters
+#' @param ref Reference Annual Rate
+#' @param vol Volatility of given Annual Rate
+#' @param seed Seed for random number generation
+#' @param years Number of years
+#' @param initial Initial Investment
+#' @param growth Growth Rate
+#' @param cont Annual Contribution
+#' @return a vector containing the investment amount per year
+invest <- function(ref, vol, seed, years = 1, initial, growth, cont){
+  finalvector <- rep(0, years)
+  for(i in 1:years){
+    ratereturn <- randannual(ref, vol, seed)
+    if(i == 1){
+      finalvector[i] <- initial*(1+ratereturn)+cont*(1+growth)^(i-1)
+    } else {
+      finalvector[i] <- finalvector[i-1]*(1+ratereturn)+cont*(1+growth)^(i-1)
+    }
+  }
+  return(finalvector)
+}
+
+#' @title Collated Investments Function
+#' @description Creates a dataframe of all three types of investments given parameters for each
+#' @param refhy Reference Annual Rate (High Yield)
+#' @param volhy Volatility of given High Yield Annual Rate
+#' @param reffixed Reference Annual Rate (Fixed Income)
+#' @param volfixed Volatility of given Fixed Income Annual Rate
+#' @param refequity Reference Annual Rate (Equity)
+#' @param volequity Volatility of given Equity Annual Rate
+#' @param seed Seed for random number generation
+#' @param years Number of years
+#' @param initial Initial Investment
+#' @param growth Growth Rate
+#' @param cont Annual Contribution
+#' @return a dataframe with columns for year alongside all three types of investments
+collate <- function(refhy, volhy, reffixed, volfixed, refequity, volequity, seed, years, initial, growth, cont){
+  set.seed(seed)
+  highyield <- invest(refhy, volhy, seed, years, initial, growth, cont)
+  fixed <- invest(reffixed, volfixed, seed, years, initial, growth, cont)
+  equity <- invest(refequity, volequity, seed, years, initial, growth, cont)
+  all <- c(highyield, fixed, equity)
+  year <- c(1:years, 1:years, 1:years)
+  fact <- c(rep("high", years), rep("fixed", years), rep("equity", years))
+  finaldf <- data.frame(year, all, fact)
+  return(finaldf)
+}
+```
+
+---
+
+# ggplot2 test
+
+---
+
+```{r}
+library(ggplot2)
+df <- collate(0.02, 0.001, 0.05, 0.045, 0.1, 0.15, 12, 10, 1000, 0.02, 200)
+df
+ggplot(df, aes(x = year, y = all, color = fact)) + geom_line() + geom_point()
+
+nnnn <- rep(0, 12)
+for(i in 1:12){
+  nnnn[i] <- randannual(0.02, 0.001, 12)
+}
+nnnn
+c(seq(25),seq(25),seq(25))
