@@ -1,0 +1,187 @@
+---
+title: "warmup02-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Vectors
+
+```{r}
+planets <- c("Mercury", "Venus", "Earth", "Mars", "Jupiter", "saturn", "Uranus", "Neptune")
+mass <- c(0.33, 4.87, 5.97, 0.642, 1898, 568, 86.8, 102)
+diameter <- c(4879, 12104, 12756, 6792, 142984, 120536, 51118, 49528)
+density <- c(5427, 5243, 5514, 3933, 1326, 687, 1271, 1638)
+gravity <-c(3.7, 8.9, 9.8, 3.7, 23.1, 9, 8.7, 11)
+daylength <- c(4222.6, 2802, 24, 24.7, 9.9, 10.7, 17.2, 16.1)
+temperature <- c(167, 464, 15, -65, -110, -140, -195, -200)
+pressure <- c(0, 92, 1, 0.01, NA, NA, NA, NA)
+moons <-c(0, 0, 1, 2, 79, 62, 27, 14)
+rings <- c("No", "No", "No", "No", "Yes", "Yes", "Yes", "Yes")
+```
+
+# Descriptive Summaries
+```{r}
+#Minimum Value
+mass[which.min(mass)]
+#First Quartile
+quantile(mass)[2]
+#Median
+quantile(mass)[3]
+#Mean
+mean(mass)
+#Third Quartile
+quantile(mass)[4]
+#90th Percentile
+quantile(mass, .9)
+#Maximum Value
+mass[which.max(mass)]
+#IQR
+IQR(mass)
+#Standard Deviation
+sd(mass)
+```
+# Subscripting
+```{r}
+#Name of Heaviest Planet
+planets[which.max(mass)]
+#Temp of Diameter 6792
+temperature[diameter == 6792]
+#Mass of Planet with Most Moons
+mass[which.max(moons)]
+#Num of Moons on Coldest Planet
+moons[which.min(temperature)]
+#Frequencies of Rings
+table(factor(rings))
+#Num of Planets with Density larger than Mean
+length(density[density > mean(density)])
+#0-2 Moons
+length(moons[moons >= 0 & moons <= 2])
+#Median Number of Moons for Ring Planets
+median(moons[rings == "Yes"])
+#Mean Daylength of planets with NA pressure
+mean(daylength[is.na(pressure)])
+#First Quartile of Temp for Planets with Gravity Between 8 and 10
+quantile(temperature[gravity >= 8 & gravity <= 10], 0.25)
+```
+
+# List for Planets
+```{r}
+solar <- list(
+  planets = planets,
+  mass = mass,
+  temperature = temperature,
+  moons = moons,
+  rings = rings
+)
+```
+
+```{r}
+#Heaviest Planet
+solar$planets[solar$mass == max(solar$mass)]
+#Mass of Planet with most Moons
+solar$mass[solar$moons == max(solar$moons)]
+#Count of Planets with Positive Temps
+length(solar$planets[solar$temperature > 0])
+#Third Quartile for Temp of Planets with Rings
+quantile(solar$temperature[solar$rings == "Yes"], .75) 
+```
+
+# More Lists
+```{r}
+hp <- list(
+  first = "Harry",
+  last = "Potter",
+  courses = c("Potions", "Enchantments", "Spells"),
+  sport = "quidditch",
+  age = 18L,
+  gpa = 3.9
+)
+```
+
+```{r}
+#Class
+class(hp)
+#Elements
+length(hp)
+#Length of Courses
+length(hp$courses)
+#Data Type of age
+typeof(hp$age)
+#Data Type of gpa
+typeof(hp$gpa)
+#Type of gpa and age together
+typeof(c(hp$gpa, hp$age))
+```
+
+# Factors
+```{r}
+brks <- c(2900, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000)
+lbls <- c("<3.5k", "3.5k-4k", "4k-4.5k", "4.5k-5k", "5k-5.5k", "5.5k-6k", "6k-6.5k", "6.5k-7k")
+income <- cut(state.x77[,2], breaks = brks, labels = lbls, right = TRUE)
+table(income)
+```
+
+```{r}
+barplot(table(income), names.arg = lbls, las = 2, main = "Distribution of Incomes")
+```
+
+# Technical Questions\
+```{r}
+x <- c(1, 2, 3, 4, 5)
+y <- c("a", "b", "c", "d", "e")
+y[x[-2][3]]
+```
+### a) This subsets y to just the elements that correspond to the elements in x that are less than or equal to two (elements 1 and 2).
+### b) This subsets y to the element that correspond to the element in x that matches the fifth element in x (element 5).
+### c) This subsets y to the elements that correspond to the elements in x that do not fulfill the conditional "x < 3" (elements 3, 4, and 5).
+### d) This returns the elements in y that match the element numbers given by x/x (which returns a list of five 1's), therefore resulting in a list of five a's.
+### e) This returns the element in y that match the element number given by x[-2][3] (the [-2] cuts the second number in the list, resulting in x <- c(1, 2, 4, 5), and the [3] results in 4, now the third element in this list) which gives us "d".
+### f) This subsets x to the elements which correspond to the elements in y which aren't "c" or "a" ("b", "d", and "e"), which gives us 2, 4, and 5.
+
+# 2D Arrays
+```{r}
+lord <- c("v", "o", "l", "d", "e", "m", "o", "r", "t")
+vol <-matrix(lord, nrow = 3, ncol = 3)
+vol
+```
+```{r}
+#A
+vol[1,]
+#B
+cbind(vol[1:2, 2], vol[1:2, 1])
+#C
+vol[3:1, ]
+#D
+cbind(vol[, 1:2], vol[, 2])
+#E
+vol[3:1, 3:1]
+#F
+cbind(rbind(vol[3:1, 3:2], vol[1:3, 3:2]), rbind(vol[3:1, 2:3], vol[1:3, 2:3]))
+#G
+cbind(rbind(vol[3:1, 1:3], vol), rbind(vol[3:1, 3:1], vol[, 3:1]))
+```
+
+# Typesetting Mathematics\
+## Quadratic Equation (General Form)
+The quadratic equation is any equation having this form, where $x$ represents and unknown and $a, b,$ and $c$ represent known numbers. 
+$$ax^{2} + bx + c = 0$$
+
+---
+
+## Quadratic Equation (Root Form)
+$$x = \frac{-b \pm \sqrt{b^{2}-4ac}}{2a}$$
+
+---
+
+## Derivative of Quadratic Equation
+$$ ax^{2}+bx + c = 0$$
+$$4a^{2}x^{2} + 4abx +4ac = 0$$
+$$4a^{2}x^{2} + 4abx = -4ac$$
+$$4a^{2}x^{2} + 4abx + b^{2} = b^{2} -4ac$$
+$$(2ax+b)^{2} = b^{2}-4ac$$
+$$2ax+b = \pm \sqrt{b^{2}-4ac}$$
+$$2ax = -b \pm \sqrt{b^{2} -4ac}$$
+$$x = \frac{-b \pm \sqrt{b^{2}-4ac}}{2a}$$

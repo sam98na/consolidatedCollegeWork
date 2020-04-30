@@ -1,0 +1,112 @@
+---
+title: "lab02-sam-na-pt2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Sorry for two parts, I kept getting a pandoc error when it was all on one rmd
+```{r}
+library(dplyr)
+data(starwars)
+starwars <- na.omit(starwars[ ,c(1,2,3,8,9)])
+#Init
+name <- starwars$name
+height <- starwars$height
+mass <- starwars$mass
+gender <- starwars$gender
+homeworld <- starwars$homeworld
+four <- head(name, n = 4)
+```
+##Matrix Practice
+
+# Females
+```{r}
+#MH
+MH <- cbind(mass[1:10], height[1:10])
+#FEMALES
+females <- matrix(c(mass[gender == "female"], height[gender == "female"]), nrow = length(mass[gender == "female"]), ncol = 2)
+#Females Row and Col Names
+rownames(females) <- name[gender == 'female']
+colnames(females) <- c("Height", "Mass")
+females
+```
+
+#Males
+```{r}
+#MALES
+males <- matrix(c(mass[gender == "male"], height[gender == "male"]), nrow = length(mass[gender == "male"]), ncol = 2)
+#Males Row and Col Names
+rownames(males) <- name[gender == 'male']
+colnames(males) <- c("Height", "Mass")
+males
+```
+
+```{r}
+#FM
+FM <- rbind(females[1:5,], males[1:5,])
+FM
+```
+
+
+```{r}
+#Reversed FM
+revFM <- apply(FM, 2, rev)
+revFM
+```
+
+```{r}
+#Last Row of FM
+lastFM <- FM[10,]
+lastFM
+```
+
+```{r}
+#Reversed FM Cols
+FM[, c(1, 2)] <-  FM[, c(2, 1)]
+colnames(FM)[c(1, 2)] <-  colnames(FM)[c(2, 1)]
+FM
+```
+
+```{r}
+#MHW Data Type
+MHW <- matrix(c(mass, height, gender), nrow = length(mass), ncol = 3)
+typeof(MHW)
+```
+
+## Dataframe Practice
+```{r}
+#Select First Row
+head(starwars, 1)
+
+#First 5 Columns Name and Homeworld
+namehomeworld <-  starwars
+namehomeworld %>% select("name", "homeworld")
+head(namehomeworld, 5)
+
+#Han Solo's Info
+subset(starwars, name == "Han Solo")
+
+#Smallest Height
+subset(starwars, height == height[which.min(height)])
+
+#Females
+subset(starwars, gender == 'female')
+
+#Females Less Mass 50
+subset(starwars, gender == 'female' & mass < 50)
+
+#Name and Gender of Height Less than 160
+hgtless <-  subset(starwars, height<160)
+hgtless %>% select("gender", "homeworld")
+
+#Alphabetical Order
+ordered <- starwars[order(name),]
+head(ordered, 8)
+
+#New Column heightmass
+starwars$heightmass = height * mass
+starwars
+

@@ -1,0 +1,134 @@
+---
+title: "lab03-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+# import data file
+git <- "https://raw.githubusercontent.com/ucb-stat133/"
+hub <- "stat133-fall-2019/master/data/nba2018-players.csv"
+github <- paste0(git, hub)
+dat <- read.csv(github, stringsAsFactors = FALSE)
+```
+
+# Slicing and Filtering Practice
+```{r}
+#First 5
+slice(dat, 1:5)
+#Multiples of 5
+slice(dat, seq(10, 50, by=5))
+#Last 5 Rows
+slice(dat, seq(n(), n()-5, by=-1))
+#Height < 70
+filter(dat, height < 70)
+#GSW
+filter(dat, team == "GSW")
+#GSW and C
+filter(dat, team == "GSW" & position == "C")
+#Filter Select 1
+select(filter(dat, team == "LAL"), player)
+#Filter Select 2
+select(filter(dat, team == "GSW" & position == "PG"), c(player, salary))
+#Filter Select 3
+select(filter(dat, experience > 10 & salary < 1000000), c(player, age, team))
+#Filter Select 4
+slice(select(filter(dat, experience == 0 & age == 20), c(player, team, height, weight)), 1:5)
+```
+
+# Mutate Practice
+```{r}
+# creating a small data frame step by step
+gsw <- filter(dat, team == 'GSW')
+gsw <- select(gsw, player, height, weight)
+gsw <- slice(gsw, c(4, 8, 10, 14, 15))
+gsw
+#Product
+mutate(gsw, product = height*weight)
+#GSW3
+gsw3 <- mutate(gsw, log_height=log(height), log_weight = log(weight))
+gsw3
+#Height Less than 71
+arrange(filter(dat, height < 71), height)
+```
+
+```{r}
+#Top 5 Highest Paid
+slice(select(arrange(dat, desc(salary)), c(player, team, salary)), 1:5)
+#Top 10 3 Point Players
+slice(select(arrange(dat, desc(points3)), c(player, team, points3)), 1:10)
+```
+
+```{r}
+#GSW_MPG
+new_gsw <-  filter(dat, team == "GSW")
+gsw_mpg <- arrange(select(mutate(new_gsw, min_per_game = minutes/games), c(player, experience, min_per_game)), desc(min_per_game))
+
+gsw_mpg
+```
+
+# Summarise Practice
+```{r}
+#Largest Height Val
+summarise(dat, highest_height=max(height))
+#Standard Dev of Points3
+summarise(dat, standarddev = sd(points3))
+#Median of 3points
+summarise(group_by(dat, team), medi = median(points3))
+#Avg 3 Points by Team
+arrange(slice(summarise(group_by(dat, team), avg = mean(points3)), seq(n(), n()-5)), avg)
+#Mean and STD
+summarise(group_by(filter(dat, experience == 5| experience == 10 & position == "PF"), experience), avg = mean(age), std = sd(age))
+```
+
+# BASH
+```{r eval=FALSE}
+pwd
+mkdir stat133-lab05
+cd stat133-lab05
+curl -O http://textfiles.com/food/bread.txt
+#Repeat prev command with diff hyperlinks like 20 times
+ls
+ls -l
+ls -r
+ls -l -t
+ls *txt
+ls *txt -r
+ls ????.csv
+ls *[2]*.csv
+ls *[[:digit:]]*
+mkdir data
+cd data
+mkdir txt-files
+mkdir csv-files
+mv ../bread.txt ./txt-files
+ls ./txt-files
+mv ../*txt ./txt-files
+ls ./txt-files
+mv ../*csv ./csv-files
+ls ./csv-files
+tree
+cd ..
+mkdir copies
+cp ./data/txt-files/bread.txt ./copies
+ls ./copies
+cp ./data/txt-files/*txt ./copies
+ls ./copies
+cp ./data/csv-files/*csv ./copies
+ls ./copies
+tree
+cd copies
+mv bread.txt bread-recipe.txt
+mv cars.csv autos.csv
+mv btaco.txt breakfast-taco.txt
+cd ..
+mv copies copy-files
+rm copy-files/*csv
+rm -r copy-files
+ls ./data/txt-files -r
+```
+

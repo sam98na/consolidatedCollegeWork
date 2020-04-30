@@ -1,0 +1,82 @@
+---
+title: "Lab 01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+-----
+
+### "Scientific Calculator" Code
+```{r}
+phone <- 80
+transportation <- 20
+groceries <- 527
+gym <- 10
+rent <- 1500
+other <- 83
+total <- phone + transportation + gym + rent +other +groceries
+semesterTotal <- total * 5
+yearTotal <- semesterTotal * 2
+expenses <- c(phone, transportation, groceries, gym, rent, other)
+sortedExpenses <- sort(expenses)
+list <- c("gym", "transportation", "phone", "other", "groceries", "rent")
+barplot(sortedExpenses, names.arg = list)
+```
+-----
+
+### "Pythagoras" Code
+```{r}
+a <- 3
+b <- 4
+hyp <- sqrt((a^2) + (b^2))
+hyp
+```
+-----
+
+### "Probability" Code
+```{r}
+n <- 5
+k <- 2
+p <- 0.5
+factChoose <- factorial(n)/(factorial(k)*factorial(n-k))
+factChoose
+```
+Binomial Formula Code
+```{r}
+binomial <- factChoose*(p^k)*((1-p)^(n-k))
+binomial
+```
+Choose Binomial Formula Code
+```{r}
+chooseBinomial <- choose(n, k)*(p^k)*((1-p)^(n-k))
+chooseBinomial
+```
+3/10 Dice Rolls Code
+```{r}
+n <- 10
+k <- 3
+p <- 0.2
+diceBinomial <- choose(n, k)*(p^k)*((1-p)^(n-k))
+diceBinomial
+```
+dbinom Code
+```{r}
+dbinom(2, 5, 0.5) #2 Heads in 5 Coin Flips
+dbinom(3, 3, 0.2) #3 Sixes in 3 Dice Rolls
+dbinom(3, 10, 0.2) #3 Sixes in 10 Dice Rolls (in case that was a typo on the assignment prompt)
+```
+Changing Previous Binomial Code
+```{r}
+#I would just change the p to be 0.35.
+n <- 5
+k <- 2
+p <- 0.35
+modifiedBinomial <- choose(n, k)*(p^k)*((1-p)^(n-k))
+modifiedBinomial
+```
+3 Heads in 5 Flips Code
+```{r}
+dbinom(3, 5, 0.35)
+```

@@ -1,0 +1,57 @@
+---
+title: "warmup03-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data Storms
+
+### They are both ways to store data, with tibbles basically being data frames with extra functions, like what happens when you print one (tibbles only display the first 10), subsetting always returning another tibble instead of sometimes returning a vector, and recycling (tibbles will only recycle a length one, with any other lengths returning an error).
+
+---
+
+# Storms in 1975
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+distinct(storms[, 1])
+```
+
+---
+
+# Storms in the 1908's
+
+```{r}
+#(a)
+oheights <- seq(1980, 1989)
+storm_names_1908 <- select(filter(storms, year %in% oheights), c(name, year))
+storm_names_1908
+#(b)
+new <- group_by(unique(storm_names_1908), name)
+dupetf <- c(duplicated(select(new, name)))
+table(dupetf)
+```
+
+---
+
+# Number of Storms per Year
+
+```{r}
+storms_per_year <- summarize(group_by(storms, year), count = length(year))
+storms_per_year
+```
+
+---
+
+# Number of Records for Each Storm per Year
+
+```{r}
+storm_records_per_year <- select(storms, c(name, year))
+counts <- summarise(group_by(storm_records_per_year, name), count = length(year))
+grouped_name <- count(group_by(storm_records_per_year, name))

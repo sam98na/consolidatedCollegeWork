@@ -1,0 +1,110 @@
+---
+title: "warmup01-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# <b>Harry Potter</b>
+
+---
+
+###           Dean Thomas
+
+---
+> "We're fighting, aren't we? The message said Harry was back, and we were going to fight! I'll have to get a wand, though...."
+
+#### <i>-Dean's determination to fight in the Battle of Hogwarts</i>
+
+<p align="center">
+  <img width="253" height="377" src="https://vignette.wikia.nocookie.net/harrypotter/images/1/1e/HPDH2-1500.jpg/revision/latest/scale-to-width-down/335?cb=20180204001353">
+</p>
+
+
+Description | Value
+---|---
+Blood Status | Half-Blood
+Nationality | English
+Title | Chaser
+Species | Human
+House | Gryffindor
+
+# <b>Cooking Recipe</b>
+
+___
+
+### Fried Chicken
+
+___
+
+<p align="center">
+  <img width="500" height="333" src="https://smittenkitchendotcom.files.wordpress.com/2015/05/fried-chicken1.jpg?w=500">
+</p>
+
+<b><u> Ingredients </u></b>
+
+* 2 chickens, cut into 10 pieces each
+
+<u>Brine</u>
+
+* 5 cups buttermilk
+* 1 cup kosher salt
+* 2 smashed medium garlic heads 
+* 1/4 cup sugar
+* 2 tablespoons paprika
+
+<u>Batter</u>
+
+* 2 large eggs
+* 2 teaspoons baking powder
+* 1 teaspoon baking soda
+* 2 cups buttermilk
+
+<u>Coating</u>
+
+* 6 cups flour
+
+<b><u> Special Items Required </u></b>
+
+Cast-iron skillet
+
+<b><u> Steps </U></b>
+
++ Mix brine ingredients in a large bowl. Place the chicken pieces in brining solution and refrigerate for two to three hours. Remove and place on rack to air-dry.
+
++ Mix batter ingredients and place in a large bowl. Place coating in large pan to coat chicken.
+
++ Coat chicken with flour, then place in batter. Drain excess batter off chicken and place in flour again and cover. Use tongs for transfers.
+
++ To fry, heat peanut oil to 375 degrees in a cast-iron skillet. Do not fill the pot more than half full with oil. Place five to six pieces of chicken, skin side down first, in the skillet and cook, covered for seven minutes. Turn chicken and cook, uncovered, for another seven minutes. Allow the oil to return to 375 degrees F before frying the next batch.
+
++ Remove the chicken from the oil and place each piece on a metal baking rack set on a sheet pan, keeping warm in the oven until ready to serve.
+
+# <b> Cosine Similarity </b>
+
+***
+
+### <b>Definition </b>
+
+***
+
+The cosine of two non-zero vectors can be derived by using the Euclidean dot product formula:
+
+$$ A \cdot B = \|A\| \|B\|\cos{(\theta)} $$
+
+Given two vectors of attributes, $A$ and $B$, the cosine similarity, $\cos{(\theta)}$, is represented using a dot product and magnitude as
+
+$$ similarity = \cos{(\theta)} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{\sum_{i=1}^{n}A_{i}B_{i}}{\sqrt{\sum_{i=1}^{n}A_{i}^{2}}\sqrt{\sum_{i=1}^{n}B_{i}^{2}}} $$
+where $A_{i}$ and $B_{i}$ are components of vector $A$ and $B$ respectively.
+
+The resulting similarity ranges from −1 meaning exactly opposite, to 1 meaning exactly the same, with 0 indicating orthogonality or decorrelation, while in-between values indicate intermediate similarity or dissimilarity.
+
+For text matching, the attribute vectors A and B are usually the term frequency vectors of the documents. Cosine similarity can be seen as a method of normalizing document length during comparison.
+
+In the case of information retrieval, the cosine similarity of two documents will range from 0 to 1, since the term frequencies (using tf–idf weights) cannot be negative. The angle between two term frequency vectors cannot be greater than 90°.
+
+If the attribute vectors are normalized by subtracting the vector means (e.g., $A - \bar{A}$), the measure is called the centered cosine similarity and is equivalent to the Pearson correlation coefficient. For an example of centering, 
+
+$$ if\: A = [A_{1}, A_{2}]^{T}, \:then\: \bar{A} = \left[\frac{(A_{1} + A_{2}}{2}, \frac{(A_{1} + A_{2}}{2}\right]^{T}, \:so\: A - \bar{A} = \left[\frac{(A_{1} - A_{2}}{2}, \frac{(-A_{1} + A_{2}}{2}\right]^{T}.$$

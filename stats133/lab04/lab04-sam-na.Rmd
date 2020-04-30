@@ -1,0 +1,161 @@
+---
+title: "lab04-sam-na"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = "images/")
+```
+
+```{r}
+library(dplyr)
+```
+
+# Abalone Data Set
+
+Character delimiter is commas, there isn't a row for column names, there are no missing attribute values, and the data types of each column is nominal for the "sex" column, continuous for the "length, diameter, height, whole weight, shucked weight, viscera weight, and shell weight" columns, and integer for the "rings" column.
+
+---
+
+# Bash Commands
+
+```{r eval = FALSE}
+file abalone.data
+wc abalone.data
+wc -l abalone.data
+head abalone.data
+head -n5 abalone.data
+tail abalone.data
+tail -n3 abalone.data
+less abalone.data
+```
+
+---
+
+# Basic Importing
+
+```{r}
+column_names <- c("Sex", "Length", "Diameter", "Height", "Whole Weight", "Shucked Weight", "Viscera Weight", "Shell Weight", "Rings")
+column_types <- c("character", "real", "real", "real", "real", "real", 'real', 'real', 'integer')
+abalone <- read.table("abalone.data", sep = ",", col.names = column_names, colClasses=column_types)
+head(abalone)
+str(abalone)
+
+###
+abalone2 <- read.csv("abalone.data")
+head(abalone2)
+str(abalone2)
+
+###
+abalone10 <- read.table("abalone.data", sep = ",", nrows=10)
+abalone10
+str(abalone10)
+
+###
+abalone20 <- read.table("abalone.data", sep = ",", skip=10)
+head(abalone20)
+str(abalone20)
+
+###
+minabalone <- apply(abalone[-1], 2, min)
+maxabalone <- apply(abalone[-1], 2, max)
+meanabalone <- apply(abalone[-1], 2, mean)
+sdabalone <- apply(abalone[-1], 2, sd)
+rbind(minabalone, maxabalone, meanabalone, sdabalone)
+```
+
+---
+
+# Intro to GGPLOT2
+```{r}
+library(ggplot2)
+coltype <- c("character", "factor", "factor", "integer", "integer", "integer", "integer", "character", "real", "real", "real", "real", "real", "real", "real")
+nba <- read.csv("data/nba2018-players.csv", sep=",", colClasses = coltype)
+str(nba)
+```
+
+```{r HeightWeightScatter}
+ggplot(data = nba, aes(x = height, y = weight)) + geom_point()
+```
+
+```{r HWText}
+ggplot(data = nba, aes(x = height, y = weight)) + geom_text(aes(label=player))
+```
+
+```{r HWLabel}
+ggplot(data = nba, aes(x = height, y = weight)) + geom_label(aes(label=player))
+#Difference is label surrounds the text with a white box for slightly better readability and less text overlap.
+```
+
+```{r SalaryDensity}
+ggplot(nba, aes(salary)) + geom_density()
+```
+
+```{r Points2Hist}
+ggplot(nba, aes(points2)) + geom_histogram(binwidth=50)
+```
+
+```{r PositionBar}
+ggplot(nba, aes(position)) + geom_bar()
+```
+
+```{r ExpSalScatter}
+ggplot(filter(nba, position == "C"), aes(experience, salary)) + geom_point() + geom_smooth(method = "lm")
+```
+
+```{r ExpSalScatterLoess}
+ggplot(filter(nba, position == "C"), aes(experience, salary)) + geom_point() + geom_smooth(method = "loess")
+```
+
+---
+
+# Faceting
+
+```{r ExpSalScatterFacet}
+ggplot(nba, aes(experience, salary)) + geom_point() + facet_wrap(~ position)
+```
+
+```{r ExpSalScatterFacetTeam}
+ggplot(nba, aes(experience, salary)) + geom_point() + facet_wrap(~ team)
+```
+
+```{r AgeTeamFacet}
+ggplot(nba, aes(age)) +geom_density() + facet_wrap(~ team)
+```
+
+```{r HWPositionFacet}
+ggplot(nba, aes(height, weight)) + geom_point() + facet_wrap(~ position)
+```
+
+```{r HW2dPositionFacet}
+ggplot(nba, aes(height, weight)) + geom_density2d() + facet_wrap(~ position)
+```
+
+```{r ExpSalWarriors}
+ggplot(filter(nba, team == "GSW"), aes(experience, salary)) + geom_point() + theme_bw()
+```
+
+```{r LayerFun}
+ggplot(nba, aes(height, weight)) + geom_density2d() + facet_wrap(~ position) + theme_minimal()
+```
+
+---
+
+# Shell Commandos
+
+```{r eval=FALSE}
+cd images
+ls
+ls -l
+ls -l -t
+ls -r
+mkdir ../copies
+cp SalaryDensity-1.png ../copies
+cp *png ../copies
+cd ../copies
+mv SalaryDensity-1.png SD.png
+cd ../report
+mv ../copies ../copy-files
+rm ../copy-files/SD.png
+rmdir -r ../copy-files
+```

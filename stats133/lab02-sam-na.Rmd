@@ -1,0 +1,77 @@
+---
+title: "lab02-sam-na"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+data(starwars)
+starwars <- na.omit(starwars[ ,c(1,2,3,8,9)])
+#Init
+name <- starwars$name
+height <- starwars$height
+mass <- starwars$mass
+gender <- starwars$gender
+homeworld <- starwars$homeworld
+four <- head(name, n = 4)
+```
+
+## Seq/Rep/Bracket Practice
+
+```{r}
+#Even Elements
+name[seq(2, length(name), by=2)]
+#Odd Elements
+name[seq(1, length(name), by=2)]
+#Gender Multiples of 5
+gender[seq(from = 5, to = length(gender), by = 5)]
+#Mass Multiples of 10
+mass[seq(10, length(mass), by = 10)]
+#Even Elements but Backwards
+name[rev(seq(2, length(name), by=2))]
+```
+
+## Logical Operator Practice
+
+```{r}
+#Naboo
+name[homeworld == "Naboo"]
+#Naboo/Corellia
+name[homeworld == "Naboo" | homeworld == "Corellia"]
+#Female Names
+name[gender == 'female']
+#Largest Weight
+name[which.max(mass)]
+#Tallest Gender
+gender[which.max(height)]
+#Smallest Mass Gender
+gender[which.min(mass)]
+#Height of Tallest Female
+height[which.max(height[gender == 'female'])]
+#Name of Median Height
+name[height == median(height)]
+#Height at most 180 and Mass at least 120
+name[height >= 180 & mass <= 120]
+```
+
+##Factor Practice
+
+```{r}
+gender_fac <- factor(gender)
+#Gender from Naboo
+gender_fac[homeworld == "Naboo"]
+#Gender of Greater Mass than 80
+gender_fac[mass > 80]
+#Frequencies of Gender with Height > 180
+table(gender_fac[height > 180])
+#Frequencies of 'Male' in each Homeworld
+homeworld_fac <- factor(homeworld)
+table(homeworld_fac[gender == 'male'])
+```
+
